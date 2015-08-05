@@ -1,5 +1,4 @@
-var validator = require('validator');
-var crypto    = require('crypto');
+var crypto = require('crypto');
 
 /**
  * Local Authentication Protocol
@@ -16,7 +15,7 @@ var crypto    = require('crypto');
 /**
  * Register a new user
  *
- * This method creates a new user from a specified email, username and password
+ * This method creates a new user from a specified username and password
  * and assign the newly created user a local Passport.
  *
  * @param {Object}   req
@@ -24,14 +23,8 @@ var crypto    = require('crypto');
  * @param {Function} next
  */
 exports.register = function (req, res, next) {
-  var email    = req.param('email')
-    , username = req.param('username')
+  var username = req.param('username')
     , password = req.param('password');
-
-  if (!email) {
-    req.flash('error', 'Error.Passport.Email.Missing');
-    return next(new Error('No email was entered.'));
-  }
 
   if (!username) {
     req.flash('error', 'Error.Passport.Username.Missing');
@@ -45,15 +38,10 @@ exports.register = function (req, res, next) {
 
   User.create({
     username : username
-  , email    : email
   }, function (err, user) {
     if (err) {
       if (err.code === 'E_VALIDATION') {
-        if (err.invalidAttributes.email) {
-          req.flash('error', 'Error.Passport.Email.Exists');
-        } else {
-          req.flash('error', 'Error.Passport.User.Exists');
-        }
+        req.flash('error', 'Error.Passport.User.Exists');
       }
 
       return next(err);
@@ -134,15 +122,9 @@ exports.connect = function (req, res, next) {
  * @param {Function} next
  */
 exports.login = function (req, identifier, password, next) {
-  var isEmail = validator.isEmail(identifier)
-    , query   = {};
+  var query   = {};
 
-  if (isEmail) {
-    query.email = identifier;
-  }
-  else {
-    query.username = identifier;
-  }
+  query.username = identifier;
 
   User.findOne(query, function (err, user) {
     if (err) {
@@ -150,11 +132,7 @@ exports.login = function (req, identifier, password, next) {
     }
 
     if (!user) {
-      if (isEmail) {
-        req.flash('error', 'Error.Passport.Email.NotFound');
-      } else {
-        req.flash('error', 'Error.Passport.Username.NotFound');
-      }
+      req.flash('error', 'Error.Passport.Username.NotFound');
 
       return next(null, false);
     }

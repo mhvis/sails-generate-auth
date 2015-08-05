@@ -53,7 +53,7 @@ passport.protocols = require('./protocols');
  * `passReqToCallback: true` when loading the strategies, allowing us to look
  * for an existing session in the request and taking action based on that.
  *
- * For more information on auth(entication|rization) in Passport.js, check out:
+ * For more information on auth(entication|orization) in Passport.js, check out:
  * http://passportjs.org/guide/authenticate/
  * http://passportjs.org/guide/authorize/
  *

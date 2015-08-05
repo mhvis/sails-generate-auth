@@ -74,10 +74,6 @@ The only requirements, besides running the generator and adding some providers i
 For the routes, this is what you'll need to add to your `config/routes.js` file:
 
 ```javascript
-'get /login': 'AuthController.login',
-'get /logout': 'AuthController.logout',
-'get /register': 'AuthController.register',
-
 'post /auth/local': 'AuthController.callback',
 'post /auth/local/:action': 'AuthController.callback',
 
@@ -98,7 +94,7 @@ All required Passport.js middleware is contained within the `passport` policy so
 '*': [ 'passport', /* your auth dependant policies go here */ ]
 ```
 
-Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcryptjs`](https://npmjs.org/package/bcryptjs) and [`validator`](https://npmjs.org/package/validator) packages from npm for everything to work correctly.
+Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport) and [`bcryptjs`](https://npmjs.org/package/bcryptjs) packages from npm for everything to work correctly.
 
 If you want to make use of the error messages, you'll also need to add the following locale definitions (example translations provided):
 
